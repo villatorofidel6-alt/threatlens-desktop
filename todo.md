@@ -15,6 +15,6 @@
 - [x] Añadir el crédito profesional "Creador y fundador de Lumen AI" en la documentación del proyecto.
 - [x] Actualizar la biografía de GitHub y el README de perfil al publicar el proyecto.
 - [x] Publicar el repositorio de ThreatLens Desktop en GitHub.
-- [ ] Completar de forma autónoma la validación final, la publicación y la actualización del perfil antes de la entrega.
+- [x] Completar de forma autónoma la validación final, la publicación y la actualización del perfil antes de la entrega.
 - [x] Añadir créditos consistentes para GitHub @villatorofidel6-alt y Discord px1j en README, metadatos y documentación.
-- [ ] Diseñar y publicar una segunda herramienta defensiva complementaria después de ThreatLens Desktop.
+- [x] Diseñar y publicar una segunda herramienta defensiva complementaria después de ThreatLens Desktop.
