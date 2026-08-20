@@ -13,8 +13,8 @@
 - [x] Configurar empaquetado con PyInstaller para Windows, Linux y macOS desde GitHub Actions.
 - [x] Escribir README en español e inglés, con límites de seguridad y guía de instalación.
 - [x] Añadir el crédito profesional "Creador y fundador de Lumen AI" en la documentación del proyecto.
-- [ ] Actualizar la biografía de GitHub y el README de perfil al publicar el proyecto.
-- [ ] Publicar el repositorio de ThreatLens Desktop en GitHub.
+- [x] Actualizar la biografía de GitHub y el README de perfil al publicar el proyecto.
+- [x] Publicar el repositorio de ThreatLens Desktop en GitHub.
 - [ ] Completar de forma autónoma la validación final, la publicación y la actualización del perfil antes de la entrega.
 - [x] Añadir créditos consistentes para GitHub @villatorofidel6-alt y Discord px1j en README, metadatos y documentación.
 - [ ] Diseñar y publicar una segunda herramienta defensiva complementaria después de ThreatLens Desktop.
