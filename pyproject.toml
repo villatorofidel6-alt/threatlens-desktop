@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "threatlens-desktop"
+version = "0.1.0"
+description = "Local-first defensive static analysis for files, URLs, and domains"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+authors = [{name = "Lumen AI / villatorofidel6-alt"}]
+maintainers = [{name = "Lumen AI / villatorofidel6-alt"}]
+keywords = ["security", "malware-analysis", "static-analysis", "reversing", "desktop"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Environment :: Console",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Topic :: Security",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/villatorofidel6-alt/threatlens-desktop"
+Repository = "https://github.com/villatorofidel6-alt/threatlens-desktop"
+
+[project.optional-dependencies]
+pe = ["pefile>=2024.8.26"]
+rules = ["yara-python>=4.5.0"]
+build = ["pyinstaller>=6.0"]
+dev = ["pytest>=8.0", "pefile>=2024.8.26"]
+
+[project.scripts]
+threatlens = "threatlens.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"threatlens.resources" = ["*.yar"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.threatlens]
+creator = "Lumen AI"
+github = "villatorofidel6-alt"
+discord = "px1j"

@@ -1,0 +1,104 @@
+# ThreatLens Desktop
+
+> **Aplicación de escritorio local para triage y análisis estático defensivo de archivos, URLs y dominios.**
+
+[English documentation](README.en.md) · [Arquitectura](ARCHITECTURE.md) · [Uso responsable](docs/USO-RESPONSABLE.md)
+
+ThreatLens Desktop ayuda a reunir evidencia técnica sin ejecutar muestras ni depender de un navegador. Analiza archivos como bytes, inspecciona URLs públicas con límites estrictos y presenta hallazgos con una puntuación de riesgo, evidencia y recomendaciones. No pretende sustituir un laboratorio aislado, un análisis forense o una respuesta profesional a incidentes.
+
+## Capacidades
+
+| Área | Funcionalidad |
+|---|---|
+| Archivos | MD5, SHA-1, SHA-256, tamaño, tipo por firma, entropía por bloques y strings ASCII/UTF-16LE. |
+| Indicadores | Patrones explicables para packing UPX/MPRESS, secuencias de shellcode, persistencia, macros, ofuscación, C2 y reglas YARA locales. |
+| Reversing estático | PE, ELF, ZIP y PDF; en PE incluye secciones, importaciones, exportaciones e imphash cuando está disponible `pefile`. |
+| URLs y dominios | HTTP limitado, cadena de redirecciones, cabeceras seleccionadas, HTML estático, scripts inline, iframes ocultos, formularios externos y patrones de staging/C2. |
+| Resultados | Riesgo de 0 a 100, severidad, hallazgos categorizados, recomendaciones y límites del análisis. |
+| Privacidad | Historial SQLite local y exportación local a JSON, HTML o texto plano. |
+
+## Límites de seguridad
+
+ThreatLens **no ejecuta, carga, importa, abre con el sistema, descomprime automáticamente, emula ni descifra** archivos analizados. Para URLs, no usa motor JavaScript ni navegador, limita la respuesta a 512 KiB, permite hasta cinco redirecciones y bloquea destinos privados, locales, loopback y de uso especial. La detección es heurística: un hallazgo es una señal para investigar, no una prueba concluyente de actividad maliciosa.
+
+> Si necesitas analizar malware real, conserva la muestra, registra el hash y utiliza procedimientos autorizados en un entorno aislado. Nunca ejecutes una muestra solo para “ver qué hace”.
+
+## Instalación desde código
+
+Requiere Python 3.11 o superior. El motor básico funciona con la biblioteca estándar; las capacidades PE y YARA se habilitan con extras opcionales.
+
+```bash
+git clone https://github.com/villatorofidel6-alt/threatlens-desktop.git
+cd threatlens-desktop
+python -m venv .venv
+```
+
+En Windows:
+
+```powershell
+.venv\Scripts\Activate.ps1
+python -m pip install -e ".[pe,rules]"
+```
+
+En Linux o macOS:
+
+```bash
+. .venv/bin/activate
+python -m pip install -e ".[pe,rules]"
+```
+
+## Uso
+
+La interfaz gráfica de escritorio se inicia sin navegador:
+
+```bash
+threatlens gui
+```
+
+La CLI permite automatizar análisis y guardar reportes locales:
+
+```bash
+threatlens scan-file ./archivo-sospechoso.bin --format html --output informe.html
+threatlens scan-url https://example.org --format json --output informe.json
+threatlens history "fragmento-de-hash"
+```
+
+Los reportes con riesgo `high` o `critical` hacen que la CLI termine con código `1`, útil para flujos de revisión. La aplicación no transmite el archivo ni el historial a un servicio externo.
+
+## Instaladores
+
+El flujo de publicación de GitHub Actions compila binarios nativos para Windows, Linux y macOS mediante PyInstaller. PyInstaller empaqueta Python y dependencias para que el usuario no tenga que instalar un intérprete, pero no es un compilador cruzado: por ello cada binario se construye en el sistema operativo correspondiente. [1]
+
+Los artefactos de compilación se encontrarán en la pestaña **Actions** y en las versiones etiquetadas del repositorio. En macOS, la primera apertura puede requerir revisión por las políticas de firma de Apple; los binarios de producción deben ser firmados y notarizados antes de una distribución comercial amplia.
+
+## Desarrollo y pruebas
+
+```bash
+python -m pip install -e ".[dev,pe,rules]"
+python -m pytest
+python -m compileall -q src tests
+```
+
+Las pruebas utilizan exclusivamente fixtures inofensivos y no ejecutables. Cubren hashes, entropía, indicadores, protección frente a enlaces simbólicos, URL/HTML, reglas YARA locales, estructuras ZIP/PDF/ELF, historial SQLite y los tres exportadores.
+
+## Reglas y formatos
+
+Las reglas YARA empaquetadas son deliberadamente pequeñas y auditables; YARA describe patrones de texto o bytes y una condición booleana para identificar o clasificar muestras. [2] La lectura opcional de PE utiliza `pefile`, una biblioteca diseñada para exponer encabezados, importaciones, exportaciones y secciones de ejecutables PE sin ejecutarlos. [3]
+
+## Créditos
+
+**Creador y fundador:** Lumen AI  
+**GitHub:** [@villatorofidel6-alt](https://github.com/villatorofidel6-alt)  
+**Discord:** `px1j`
+
+## Licencia
+
+MIT. Consulta [LICENSE](LICENSE).
+
+## Referencias
+
+[1] [PyInstaller Manual](https://www.pyinstaller.org/)
+
+[2] [YARA Documentation](https://yara.readthedocs.io/)
+
+[3] [pefile documentation](https://pefile.readthedocs.io/en/latest/modules/pefile.html)

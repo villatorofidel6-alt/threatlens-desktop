@@ -1,0 +1,3 @@
+ThreatLens Desktop benign validation fixture.
+
+This file contains no executable content. It exists only to demonstrate hashes, static string extraction, report export, and local-history behaviour.
